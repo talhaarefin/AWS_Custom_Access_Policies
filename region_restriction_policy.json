@@ -1,0 +1,46 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+
+    {
+      "Sid": "DenyOutsideAllowedRegions",
+      "Effect": "Deny",
+      "Action": "*",
+      "Resource": "*",
+      "Condition": {
+        "StringNotEquals": {
+          "aws:RequestedRegion": [
+            "us-east-1",
+            "ap-southeast-1"
+          ]
+        },
+        "StringNotLike": {
+          "aws:PrincipalServiceName": [
+            "*.amazonaws.com"
+          ]
+        }
+      }
+    },
+
+    {
+      "Sid": "AllowGlobalServices",
+      "Effect": "Allow",
+      "Action": [
+        "iam:*",
+        "sts:*",
+        "route53:*",
+        "route53domains:*",
+        "cloudfront:*",
+        "waf:*",
+        "wafv2:*",
+        "acm:*",
+        "globalaccelerator:*",
+        "support:*",
+        "trustedadvisor:*",
+        "health:*"
+      ],
+      "Resource": "*"
+    }
+
+  ]
+}

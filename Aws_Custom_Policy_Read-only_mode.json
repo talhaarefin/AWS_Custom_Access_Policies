@@ -1,0 +1,189 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+
+    {
+      "Sid": "ReadIAM",
+      "Effect": "Allow",
+      "Action": [
+        "iam:Get*",
+        "iam:List*",
+        "iam:GenerateCredentialReport",
+        "iam:GenerateServiceLastAccessedDetails",
+        "iam:SimulatePrincipalPolicy"
+      ],
+      "Resource": "*"
+    },
+
+    {
+      "Sid": "ReadEC2",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:Describe*",
+        "ec2:GetConsoleOutput",
+        "ec2:GetConsoleScreenshot",
+        "ec2:GetPasswordData"
+      ],
+      "Resource": "*"
+    },
+
+    {
+      "Sid": "ReadS3Metadata",
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListAllMyBuckets",
+        "s3:GetBucketAcl",
+        "s3:GetBucketPolicy",
+        "s3:GetBucketPolicyStatus",
+        "s3:GetBucketPublicAccessBlock",
+        "s3:GetBucketVersioning",
+        "s3:GetBucketLogging",
+        "s3:GetBucketEncryption",
+        "s3:GetBucketCORS",
+        "s3:GetBucketLocation",
+        "s3:GetBucketTagging",
+        "s3:GetBucketWebsite",
+        "s3:GetBucketReplication",
+        "s3:GetLifecycleConfiguration",
+        "s3:ListBucket"
+      ],
+      "Resource": [
+        "arn:aws:s3:::*",
+        "arn:aws:s3:::*/*"
+      ]
+    },
+
+    {
+      "Sid": "ReadCloudTrail",
+      "Effect": "Allow",
+      "Action": [
+        "cloudtrail:DescribeTrails",
+        "cloudtrail:GetTrailStatus",
+        "cloudtrail:GetTrail",
+        "cloudtrail:GetEventSelectors",
+        "cloudtrail:GetInsightSelectors",
+        "cloudtrail:ListTags",
+        "cloudtrail:ListTrails",
+        "cloudtrail:LookupEvents"
+      ],
+      "Resource": "*"
+    },
+
+    {
+      "Sid": "ReadCloudWatch",
+      "Effect": "Allow",
+      "Action": [
+        "cloudwatch:Describe*",
+        "cloudwatch:Get*",
+        "cloudwatch:List*",
+        "logs:Describe*",
+        "logs:Get*",
+        "logs:List*",
+        "logs:FilterLogEvents",
+        "logs:StartQuery",
+        "logs:StopQuery",
+        "logs:TestMetricFilter"
+      ],
+      "Resource": "*"
+    },
+
+    {
+      "Sid": "ReadConfig",
+      "Effect": "Allow",
+      "Action": [
+        "config:Describe*",
+        "config:Get*",
+        "config:List*",
+        "config:BatchGetResourceConfig",
+        "config:SelectResourceConfig"
+      ],
+      "Resource": "*"
+    },
+
+    {
+      "Sid": "ReadGuardDuty",
+      "Effect": "Allow",
+      "Action": [
+        "guardduty:ListDetectors",
+        "guardduty:GetDetector",
+        "guardduty:ListFindings",
+        "guardduty:GetFindings",
+        "guardduty:GetFindingsStatistics",
+        "guardduty:ListMembers",
+        "guardduty:GetMembers",
+        "guardduty:GetMasterAccount",
+        "guardduty:ListIPSets",
+        "guardduty:GetIPSet",
+        "guardduty:ListThreatIntelSets",
+        "guardduty:GetThreatIntelSet"
+      ],
+      "Resource": "*"
+    },
+
+    {
+      "Sid": "ReadSecurityHub",
+      "Effect": "Allow",
+      "Action": [
+        "securityhub:Get*",
+        "securityhub:List*",
+        "securityhub:Describe*",
+        "securityhub:BatchGetSecurityControls",
+        "securityhub:BatchGetStandardsControlAssociations"
+      ],
+      "Resource": "*"
+    },
+
+    {
+      "Sid": "ReadKMS",
+      "Effect": "Allow",
+      "Action": [
+        "kms:ListKeys",
+        "kms:ListAliases",
+        "kms:DescribeKey",
+        "kms:GetKeyPolicy",
+        "kms:GetKeyRotationStatus",
+        "kms:ListKeyPolicies",
+        "kms:ListResourceTags",
+        "kms:ListGrants",
+        "kms:ListRetirableGrants"
+      ],
+      "Resource": "*"
+    },
+
+    {
+      "Sid": "DenyAllWrites",
+      "Effect": "Deny",
+      "Action": [
+        "iam:Create*",
+        "iam:Delete*",
+        "iam:Update*",
+        "iam:Put*",
+        "iam:Attach*",
+        "iam:Detach*",
+        "ec2:Run*",
+        "ec2:Start*",
+        "ec2:Stop*",
+        "ec2:Terminate*",
+        "ec2:Create*",
+        "ec2:Delete*",
+        "ec2:Modify*",
+        "s3:Put*",
+        "s3:Delete*",
+        "s3:Create*",
+        "cloudtrail:StopLogging",
+        "cloudtrail:DeleteTrail",
+        "cloudtrail:UpdateTrail",
+        "cloudtrail:CreateTrail",
+        "guardduty:ArchiveFindings",
+        "guardduty:DeleteDetector",
+        "guardduty:DeleteFilter",
+        "config:DeleteConfigRule",
+        "config:DeleteDeliveryChannel",
+        "config:PutConfigRule",
+        "config:PutDeliveryChannel"
+      ],
+      "Resource": "*"
+    }
+
+  ]
+}
