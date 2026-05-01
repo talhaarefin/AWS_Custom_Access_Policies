@@ -1,0 +1,181 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+
+    {
+      "Sid": "AllowEC2SubResources",
+      "Effect": "Allow",
+      "Action": "ec2:RunInstances",
+      "Resource": [
+        "arn:aws:ec2:*::image/*",
+        "arn:aws:ec2:*:*:volume/*",
+        "arn:aws:ec2:*:*:network-interface/*",
+        "arn:aws:ec2:*:*:subnet/*",
+        "arn:aws:ec2:*:*:security-group/*",
+        "arn:aws:ec2:*:*:key-pair/*"
+      ]
+    },
+
+    {
+      "Sid": "AllowEC2Management",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:StartInstances",
+        "ec2:StopInstances",
+        "ec2:RebootInstances",
+        "ec2:TerminateInstances",
+        "ec2:DescribeInstances",
+        "ec2:DescribeInstanceTypes",
+        "ec2:DescribeInstanceStatus",
+        "ec2:DescribeImages",
+        "ec2:DescribeKeyPairs",
+        "ec2:DescribeSecurityGroups",
+        "ec2:DescribeSubnets",
+        "ec2:DescribeVpcs",
+        "ec2:DescribeVolumes",
+        "ec2:DescribeAvailabilityZones",
+        "ec2:DescribeTags",
+        "ec2:CreateTags",
+        "ec2:CreateVolume",
+        "ec2:AttachVolume",
+        "ec2:DetachVolume",
+        "ec2:DeleteVolume",
+        "ec2:ModifyVolume"
+      ],
+      "Resource": "*"
+    },
+
+    {
+      "Sid": "DenyExpensiveEC2InstanceTypes",
+      "Effect": "Deny",
+      "Action": "ec2:RunInstances",
+      "Resource": "arn:aws:ec2:*:*:instance/*",
+      "Condition": {
+        "StringNotLike": {
+          "ec2:InstanceType": [
+            "t3.nano",
+            "t3.micro",
+            "t3.small",
+            "t3.medium",
+            "t4g.nano",
+            "t4g.micro",
+            "t4g.small",
+            "t4g.medium"
+          ]
+        }
+      }
+    },
+
+    {
+      "Sid": "AllowRDSManagement",
+      "Effect": "Allow",
+      "Action": [
+        "rds:CreateDBInstance",
+        "rds:DeleteDBInstance",
+        "rds:DescribeDBInstances",
+        "rds:StartDBInstance",
+        "rds:StopDBInstance",
+        "rds:RebootDBInstance",
+        "rds:ModifyDBInstance",
+        "rds:CreateDBSnapshot",
+        "rds:DeleteDBSnapshot",
+        "rds:DescribeDBSnapshots",
+        "rds:RestoreDBInstanceFromDBSnapshot",
+        "rds:ListTagsForResource",
+        "rds:AddTagsToResource",
+        "rds:DescribeDBEngineVersions",
+        "rds:DescribeOrderableDBInstanceOptions",
+        "rds:DescribeDBParameterGroups",
+        "rds:DescribeDBSubnetGroups"
+      ],
+      "Resource": "*"
+    },
+
+    {
+      "Sid": "DenyExpensiveRDSInstances",
+      "Effect": "Deny",
+      "Action": [
+        "rds:CreateDBInstance",
+        "rds:ModifyDBInstance",
+        "rds:RestoreDBInstanceFromDBSnapshot"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringNotLike": {
+          "rds:DatabaseClass": [
+            "db.t3.micro",
+            "db.t3.small",
+            "db.t3.medium",
+            "db.t4g.micro",
+            "db.t4g.small",
+            "db.t4g.medium"
+          ]
+        }
+      }
+    },
+
+    {
+      "Sid": "DenyRDSMultiAZ",
+      "Effect": "Deny",
+      "Action": [
+        "rds:CreateDBInstance",
+        "rds:ModifyDBInstance"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "Bool": {
+          "rds:MultiAz": "true"
+        }
+      }
+    },
+
+    {
+      "Sid": "DenyNATGateway",
+      "Effect": "Deny",
+      "Action": "ec2:CreateNatGateway",
+      "Resource": "*"
+    },
+
+    {
+      "Sid": "DenyElasticIPAllocation",
+      "Effect": "Deny",
+      "Action": "ec2:AllocateAddress",
+      "Resource": "*"
+    },
+
+    {
+      "Sid": "DenyExpensiveEBSVolumes",
+      "Effect": "Deny",
+      "Action": [
+        "ec2:CreateVolume",
+        "ec2:ModifyVolume"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {
+          "ec2:VolumeType": [
+            "io1",
+            "io2",
+            "sc1"
+          ]
+        }
+      }
+    },
+
+    {
+      "Sid": "DenyLargeEBSVolumes",
+      "Effect": "Deny",
+      "Action": [
+        "ec2:CreateVolume",
+        "ec2:ModifyVolume"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "NumericGreaterThan": {
+          "ec2:VolumeSize": "100"
+        }
+      }
+    }
+
+  ]
+}
