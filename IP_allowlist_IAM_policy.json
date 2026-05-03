@@ -1,0 +1,83 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+
+    {
+      "Sid": "DenyIfNotApprovedIP",
+      "Effect": "Deny",
+      "Action": "*",
+      "Resource": "*",
+      "Condition": {
+        "NotIpAddress": {
+          "aws:SourceIp": [
+            "10.0.0.0/8",
+            "203.0.113.0/24"
+          ]
+        },
+        "BoolIfExists": {
+          "aws:ViaAWSService": "false"
+        },
+        "StringNotEquals": {
+          "aws:SourceVpc": [
+            "vpc-REPLACE_WITH_VPC_ID"
+          ]
+        }
+      }
+    },
+
+    {
+      "Sid": "AllowCoreServices",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:*",
+        "s3:*",
+        "rds:*",
+        "lambda:*",
+        "iam:Get*",
+        "iam:List*",
+        "iam:PassRole",
+        "cloudwatch:*",
+        "logs:*",
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:DescribeSecret",
+        "ssm:*",
+        "sts:AssumeRole",
+        "sts:GetCallerIdentity",
+        "eks:*",
+        "ecr:*",
+        "elasticloadbalancing:*",
+        "autoscaling:*",
+        "cloudformation:*",
+        "sns:*",
+        "sqs:*",
+        "dynamodb:*",
+        "kms:Describe*",
+        "kms:List*",
+        "kms:Get*"
+      ],
+      "Resource": "*"
+    },
+
+    {
+      "Sid": "AllowGlobalServices",
+      "Effect": "Allow",
+      "Action": [
+        "iam:*",
+        "sts:*",
+        "route53:*",
+        "route53domains:*",
+        "cloudfront:*",
+        "waf:*",
+        "wafv2:*",
+        "acm:*",
+        "support:*",
+        "health:*",
+        "trustedadvisor:*",
+        "budgets:*",
+        "ce:*"
+      ],
+      "Resource": "*"
+    }
+
+  ]
+}

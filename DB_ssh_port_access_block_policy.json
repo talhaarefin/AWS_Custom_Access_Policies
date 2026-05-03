@@ -1,0 +1,175 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+
+    {
+      "Sid": "AllowSecurityGroupManagement",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:CreateSecurityGroup",
+        "ec2:DeleteSecurityGroup",
+        "ec2:AuthorizeSecurityGroupIngress",
+        "ec2:AuthorizeSecurityGroupEgress",
+        "ec2:RevokeSecurityGroupIngress",
+        "ec2:RevokeSecurityGroupEgress",
+        "ec2:UpdateSecurityGroupRuleDescriptionsIngress",
+        "ec2:UpdateSecurityGroupRuleDescriptionsEgress",
+        "ec2:DescribeSecurityGroups",
+        "ec2:DescribeSecurityGroupRules",
+        "ec2:DescribeVpcs",
+        "ec2:DescribeSubnets",
+        "ec2:DescribeInstances",
+        "ec2:DescribeTags",
+        "ec2:CreateTags"
+      ],
+      "Resource": "*"
+    },
+
+    {
+      "Sid": "DenyDangerousIngressIPv4",
+      "Effect": "Deny",
+      "Action": [
+        "ec2:AuthorizeSecurityGroupIngress",
+        "ec2:UpdateSecurityGroupRuleDescriptionsIngress"
+      ],
+      "Resource": "arn:aws:ec2:*:*:security-group/*",
+      "Condition": {
+        "IpAddress": {
+          "ec2:cidr": "0.0.0.0/0"
+        },
+        "ForAnyValue:StringEquals": {
+          "ec2:fromPort": [
+            "22",
+            "3389",
+            "3306",
+            "5432",
+            "1433",
+            "27017",
+            "6379",
+            "9200",
+            "5984",
+            "0"
+          ]
+        }
+      }
+    },
+
+    {
+      "Sid": "DenyDangerousIngressIPv4ToPort",
+      "Effect": "Deny",
+      "Action": [
+        "ec2:AuthorizeSecurityGroupIngress",
+        "ec2:UpdateSecurityGroupRuleDescriptionsIngress"
+      ],
+      "Resource": "arn:aws:ec2:*:*:security-group/*",
+      "Condition": {
+        "IpAddress": {
+          "ec2:cidr": "0.0.0.0/0"
+        },
+        "ForAnyValue:StringEquals": {
+          "ec2:toPort": [
+            "22",
+            "3389",
+            "3306",
+            "5432",
+            "1433",
+            "27017",
+            "6379",
+            "9200",
+            "5984",
+            "0"
+          ]
+        }
+      }
+    },
+
+    {
+      "Sid": "DenyDangerousIngressIPv6",
+      "Effect": "Deny",
+      "Action": [
+        "ec2:AuthorizeSecurityGroupIngress",
+        "ec2:UpdateSecurityGroupRuleDescriptionsIngress"
+      ],
+      "Resource": "arn:aws:ec2:*:*:security-group/*",
+      "Condition": {
+        "IpAddress": {
+          "ec2:cidr": "::/0"
+        },
+        "ForAnyValue:StringEquals": {
+          "ec2:fromPort": [
+            "22",
+            "3389",
+            "3306",
+            "5432",
+            "1433",
+            "27017",
+            "6379",
+            "9200",
+            "5984",
+            "0"
+          ]
+        }
+      }
+    },
+
+    {
+      "Sid": "DenyDangerousIngressIPv6ToPort",
+      "Effect": "Deny",
+      "Action": [
+        "ec2:AuthorizeSecurityGroupIngress",
+        "ec2:UpdateSecurityGroupRuleDescriptionsIngress"
+      ],
+      "Resource": "arn:aws:ec2:*:*:security-group/*",
+      "Condition": {
+        "IpAddress": {
+          "ec2:cidr": "::/0"
+        },
+        "ForAnyValue:StringEquals": {
+          "ec2:toPort": [
+            "22",
+            "3389",
+            "3306",
+            "5432",
+            "1433",
+            "27017",
+            "6379",
+            "9200",
+            "5984",
+            "0"
+          ]
+        }
+      }
+    },
+
+    {
+      "Sid": "DenyAllTrafficIngressFromPublicIPv4",
+      "Effect": "Deny",
+      "Action": "ec2:AuthorizeSecurityGroupIngress",
+      "Resource": "arn:aws:ec2:*:*:security-group/*",
+      "Condition": {
+        "StringEquals": {
+          "ec2:IpProtocol": ["-1", "all"]
+        },
+        "IpAddress": {
+          "ec2:cidr": "0.0.0.0/0"
+        }
+      }
+    },
+
+    {
+      "Sid": "DenyAllTrafficIngressFromPublicIPv6",
+      "Effect": "Deny",
+      "Action": "ec2:AuthorizeSecurityGroupIngress",
+      "Resource": "arn:aws:ec2:*:*:security-group/*",
+      "Condition": {
+        "StringEquals": {
+          "ec2:IpProtocol": ["-1", "all"]
+        },
+        "IpAddress": {
+          "ec2:cidr": "::/0"
+        }
+      }
+    }
+
+  ]
+}

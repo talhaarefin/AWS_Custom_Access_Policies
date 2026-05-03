@@ -12,3 +12,9 @@ Restricts IAM users to max 2 EC2 instances and 1 S3 bucket, with full ELB, Cloud
 5. Block to launch expensive EC2, RDS, NAT Gateway, EBS.
 
 6. Block creation of EC2, S3, RDS, Lambda, ELB without required tags like why/which purpose you creating this service.
+
+7. Full infra provisioning (Terraform) permision but,cannot touch users, billing, or org settings.
+
+8. Deny 0.0.0.0/0 access on SSH,RDP and all major database ports.
+
+9. All API calls blocked unless from private network - 10.0.0.0/8 or 203.0.113.0/24
